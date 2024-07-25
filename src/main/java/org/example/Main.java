@@ -58,15 +58,18 @@ public class Main {
 
         WebElement toCurrencyInput = driver.findElement(By.id("midmarketToCurrency"));
         String toCurrencyInputText = toCurrencyInput.getText();
+
         WebElement amountInput = driver.findElement(By.xpath("//*[@id=\"amount\"]"));
+
+        WebElement convertButton = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div[4]/div[2]/section/div[2]/div/main/div/div[2]/button"));
 
         amountInput.clear();
         amountInput.sendKeys(amount);
 
         //TEST 5: CHECK is Digit Amount
+        //If not digit
         if (!isDigit(amount)) {
             try {
-                WebElement convertButton = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div[4]/div[2]/section/div[2]/div/main/div/div[2]/button"));
                 if (!convertButton.isEnabled()) {
                     System.out.println("Test 5 PASS: Amount is not numeric. Convert Button is disabled. Cannot perform conversion with non-numeric amount.");
                 } else {
@@ -75,13 +78,13 @@ public class Main {
             } catch (Exception e) {
                 System.out.println("Test 5: ERROR");
             }
+            //If is digit
         } else {
             double amountValue = Double.parseDouble(amount);
 
             //TEST 3: CHECK Amount = 0
             if (amountValue == 0) {
                 try {
-                    WebElement convertButton = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div[4]/div[2]/section/div[2]/div/main/div/div[2]/button"));
                     if (!convertButton.isEnabled()) {
                         System.out.println("Test 3 PASS: Amount is 0. Convert Button is disabled. Cannot perform conversion with 0 amount.");
                     } else {
@@ -94,7 +97,6 @@ public class Main {
                 //TEST 4: CHECK Amount -ve
             } else if (amountValue < 0) {
                 try {
-                    WebElement convertButton = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div[4]/div[2]/section/div[2]/div/main/div/div[2]/button"));
                     if (!convertButton.isEnabled()) {
                         System.out.println("Test 4 PASS: Amount is -ve. Convert Button is disabled. Cannot perform conversion with -ve amount.");
                     } else {
@@ -106,12 +108,11 @@ public class Main {
 
             } else {
                 //TEST 1: CHECK Convert USD to EUR
-                driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div[4]/div[2]/section/div[2]/div/main/div/div[2]/button")).click();
-
+                convertButton.click();
                 try {
                     // explicit wait
                     // command to wait until the element becomes visible
-                    //Result Text
+                    // Result Text
                     WebElement result = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"__next\"]/div/div[4]/div[2]/section/div[2]/div/main/div/div[2]/div[1]/div/p[2]")));
 
                     String actualResultText = result.getText();
@@ -124,6 +125,7 @@ public class Main {
 
                     double expectedResult = amountValue * exchangeRate;
 
+                    //if (actualResult == expectedResult) {
                     if (Math.abs(actualResult - expectedResult) < 0.01) {
                         System.out.println("Test 1 PASS: Valid Currency Conversion from " + fromCurrencyInputText + " to " + toCurrencyInputText + " with exchange rate: " + exchangeRate);
                     } else {
@@ -180,16 +182,3 @@ public class Main {
         return true;
     }
 }
-//
-//private static boolean isNumeric(String str) {
-//    if (str == null || str.isEmpty()) {
-//        return false;
-//    }
-//    int start = (str.charAt(0) == '-') ? 1 : 0;
-//    for (int i = start; i < str.length(); i++) {
-//        if (!Character.isDigit(str.charAt(i))) {
-//            return false;
-//        }
-//    }
-//    return true;
-//}
