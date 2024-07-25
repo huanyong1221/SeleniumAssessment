@@ -19,7 +19,7 @@ Website : https://www.xe.com/
 | S004     | Verification of conversion with Negative Amount    | Verify that attempting to convert a negative amount from USD to EUR                                                                     | -100      | The convert button should be disabled and no conversion should be performed                    | The convert button should be disabled and no conversion should be performed                    | Pass            |
 | S005     | Verification of conversion wirh alphabetical input | Verify that entering a non-numeric value (e.g., "abcdefg") as the amount                                                                | abcdefg   | The convert button should be disabled and no conversion should be performed                    | The convert button should be disabled and no conversion should be performed                    | Pass            |
 
-Output
+**Output**
 <img src = "./Output.png">
 
 
