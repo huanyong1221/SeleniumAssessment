@@ -17,5 +17,6 @@ Prepare at least 5 automation scenarios and test cases (table format) for the Co
 | S005     | Verification of conversion wirh alphabetical input | Verify that entering a non-numeric value (e.g., "abcdefg") as the amount                                                                | abcdefg   | The convert button should be disabled and no conversion should be performed                    | The convert button should be disabled and no conversion should be performed                    | Pass            |
 
 Output
+<img src = "./Output.png">
 
 
